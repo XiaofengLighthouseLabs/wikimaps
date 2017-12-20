@@ -1,9 +1,9 @@
 
 exports.seed = function(knex, Promise) {
   // Deletes ALL existing entries
-  return knex('maps').del()
+  return knex('markers').del()
     .then(function () {
-      knex('markers').del();
+      return knex('maps').del();
     })
     .then(function () {
       return Promise.all([
@@ -12,7 +12,8 @@ exports.seed = function(knex, Promise) {
       ]);
     }).then(function () {
       return Promise.all([
-        knex('markers').insert({id: 1, map_id: 1, longitude: 43.6, latitude: -79.3, title: "mymarker", description: 'stuff', image_url: 'asd'})
+        knex('markers').insert({id: 1, map_id: 1, longitude: 43.6, latitude: -79.3, title: "mymarker", description: 'stuff', image_url: 'asd'}),
+        knex('markers').insert({id: 2, map_id: 1, longitude: -79.3, latitude: 43.6, title: "mymarker", description: 'stuff', image_url: 'asd'})
       ]);
     });
 };
