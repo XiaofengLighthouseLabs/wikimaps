@@ -18,8 +18,9 @@ function initMap() {
       //Gets the longitude and latitude of the current marker
       let markerDot = {lat:Number(point.latitude), lng:Number(point.longitude)};
 
+      //Prepares infowindow
       let infoWindow = new google.maps.InfoWindow({
-        content: point.description
+        content: point.description //TODO might want to a variable that holds template literal variable for <divs> and classes to make styling easier
       });
 
       //Draws the marker on the map
@@ -28,6 +29,7 @@ function initMap() {
         map: gmap
       });
 
+      //Makes infowindow appear on marker click
       marker.addListener('click', function() {
         infoWindow.open(gmap, marker);
       });
