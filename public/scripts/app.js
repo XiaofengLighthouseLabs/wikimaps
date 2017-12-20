@@ -1,4 +1,5 @@
 var map;
+//THE ALL IMPORTANT MAP DRAWING FUNCTION
 function initMap() {
 
   $.ajax({
@@ -16,10 +17,19 @@ function initMap() {
     for(let point of maps) {
       //Gets the longitude and latitude of the current marker
       let markerDot = {lat:Number(point.latitude), lng:Number(point.longitude)};
+
+      let infoWindow = new google.maps.InfoWindow({
+        content: point.description
+      });
+
       //Draws the marker on the map
       let marker = new google.maps.Marker({
         position: markerDot,
         map: gmap
+      });
+
+      marker.addListener('click', function() {
+        infoWindow.open(gmap, marker);
       });
     }
 
@@ -27,3 +37,4 @@ function initMap() {
 }
 
 
+const string = "FILLER";
