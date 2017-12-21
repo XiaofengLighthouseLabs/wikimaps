@@ -30,7 +30,7 @@ function initMap() {
 
       //Prepares infowindow
       let infoWindow = new google.maps.InfoWindow({
-        content: generateInforWindowContent(point.description, point.title, point.id, marker) //TODO might want to a variable that holds template literal variable for <divs> and classes to make styling easier
+        content: generateInforWindowContent(point.description, point.title, point.id, point.image_url) //TODO might want to a variable that holds template literal variable for <divs> and classes to make styling easier
       });
 
       //Makes infowindow appear on marker click
@@ -44,17 +44,31 @@ function initMap() {
   });
 }
 
-let generateInforWindowContent = (description, title, id, marker) => {
+const logMarker = (e) => {
+  e.preventDefault();
+  console.log(e.target.id);
+  console.log($(e.target).serialize());
+}
+
+let generateInforWindowContent = (description, title, id, image_url) => {
   //Returns the HTML for the infoWindow
   return `
-      <h3>${title}</h3>
-      <div>
-        ${description}
-      </div>
-      <div>
-        <button class="btn" onclick=editMarker()>edit</button>
-        <button class="btn" onclick=deleteMarker(${id})>delete</button>
-      </div>
+      <form id="${id}" onsubmit=editMarker(event)>
+        <input type="hidden" value="${id}" name="form_id" />
+        <h3>
+          <textarea name='title'>${title}</textarea>
+        </h3>
+        <div>
+          <textarea name='description'>${description}</textarea>
+        </div>
+        <div>
+          <textarea name='image_url'>${image_url}</textarea>
+        </div>
+        <div>
+          <button class="btn">edit</button>
+          <button class="btn" onclick=deleteMarker(${id})>delete</button>
+        </div>
+      </form>
     `;
 };
 
@@ -77,9 +91,17 @@ let deleteMarker =  (id) => {
   }
 };
 
-let editMarker = () => {
+let editMarker = (event) => {
+  event.preventDefault();
+  $.ajax({
+    method: "POST",
+    url: "/api/markers/edit",
+    data: $(event.target).serialize(),
+      success: console.log("updated")
 
+  });
 };
+
 
 let getFaves = () => {
   $.ajax({

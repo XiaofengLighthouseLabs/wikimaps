@@ -14,6 +14,15 @@ module.exports = (knex) => {
     });
   });
 
+  router.post("/edit", (req, res) => {
+    knex("markers")
+      .where("id", Number([req.body.form_id]))
+      .update({title: req.body.title, description: req.body.description, image_url: req.body.image_url})
+      .then (() => {
+        res.status(200).send("updated");
+      });
+  });
+
   router.post("/delete", (req, res) => {
     knex("markers")
       .where("id", Number([req.body.data]))
@@ -42,6 +51,8 @@ module.exports = (knex) => {
         res.json(results);
       });
   });
+
+
 
   return router;
 };
