@@ -5,17 +5,18 @@ function initMap() {
 
   $.ajax({
     method: "GET",
-    url: "/api/markers" //TODO change the call to /api/:id(map)/markers so that we only get the relevant markers
+    url: "/api/1/markers" //TODO change the call to /api/:id(map)/markers so that we only get the relevant markers
   }).done((maps) => {
 
     //DRAW THE GOOGLE MAP
     gmap = new google.maps.Map(document.getElementById('map'), {
-      center: {lat:0, lng: 0}, //TODO make a relevant center depending on the map
-      zoom: 1
+      center: {lat:43, lng: -79.3}, //TODO make a relevant center depending on the map
+      zoom: 4
     });
 //single click to add a new point
     gmap.addListener('click', function(e) {
               placeMarkerAndPanTo(e.latLng, gmap);
+
             });
 
 //make a new info window
@@ -25,16 +26,14 @@ function initMap() {
         map: map
       });
       map.panTo(latLng);
+      console.log(Number(marker.getPosition().lat()));
+
       let infoWindow = new google.maps.InfoWindow({
-        content: generateNewInforWindowContent()
+        content: generateNewInforWindowContent(marker.getPosition().lat(), marker.getPosition().lng())
       });
 //Makes infowindow appear on marker click
       infoWindow.open(gmap, marker);
     }
-
-
-
-
 
     //Looks at all of the markers from the map DB
     for(let point of maps) {
@@ -95,11 +94,13 @@ let generateInforWindowContent = (description, title, id, image_url) => {
     `;
 };
 
-let generateNewInforWindowContent = () => {
+let generateNewInforWindowContent = (lat, lng) => {
+
   //Returns the HTML for the infoWindow
   return `
-      <form onsubmit=logMarker(event)>
-        <input type="hidden" value="" name="form_id" />
+      <form onsubmit=addMarker(event)>
+        <input type="hidden" value="${lat}" name="lat" />
+        <input type="hidden" value="${lng}" name="lng" />
         <h3>
           <textarea name='title' placeholder='Your new map title'></textarea>
         </h3>
@@ -111,7 +112,6 @@ let generateNewInforWindowContent = () => {
         </div>
         <div>
           <button class="btn">save</button>
-          <button class="btn">cancel</button>
         </div>
       </form>
     `;
@@ -140,10 +140,20 @@ let editMarker = (event) => {
   event.preventDefault();
   $.ajax({
     method: "POST",
-    url: "/api/markers/edit",
+    url: "/api/1/markers/edit",
     data: $(event.target).serialize(),
       success: console.log("updated")
 
+  });
+};
+
+let addMarker = (event) => {
+  event.preventDefault();
+  $.ajax({
+    method: "POST",
+    url: "api/1/markers/new",
+    data: $(event.target).serialize(),
+      success: console.log("created new point")
   });
 };
 
@@ -151,7 +161,7 @@ let editMarker = (event) => {
 let getFaves = () => {
   $.ajax({
     method: "GET",
-    url: "/api/markers/faves"
+    url: "/api/1/markers/faves"
   }).done((results) => {
     $('#faves').append(`<li>${results[0].title}</li>`);
   });
@@ -162,7 +172,7 @@ getFaves();
 let contribution = () => {
   $.ajax({
     method: "GET",
-    url: "/api/markers/contributions"
+    url: "/api/1/markers/contributions"
   }).done((results) => {
     $('#contributions').append(`<li>${results[0].title}</li>`);
       console.log(results[0]);
