@@ -87,11 +87,22 @@ let getFaves = () => {
     url: "/api/markers/faves"
   }).done((results) => {
     $('#faves').append(`<li>${results[0].title}</li>`);
-    console.log(results[0]);
   });
 };
 
 getFaves();
+
+let contribution = () => {
+  $.ajax({
+    method: "GET",
+    url: "/api/markers/contributions"
+  }).done((results) => {
+    $('#contributions').append(`<li>${results[0].title}</li>`);
+      console.log(results[0]);
+  });
+};
+
+contribution();
 
 
 

@@ -4,6 +4,10 @@ exports.seed = function(knex, Promise) {
   return knex('markers').del()
     .then(function () {
       return knex('fave_maps').del();
+
+    })
+    .then(function () {
+      return knex("contribution").del();
     })
     .then(function () {
       return knex('maps').del();

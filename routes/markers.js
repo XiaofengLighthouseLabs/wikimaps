@@ -33,5 +33,15 @@ module.exports = (knex) => {
       });
   });
 
+  router.get("/contributions", (req, res) => {
+    knex
+      .select("*")
+      .from("contribution")
+      .innerJoin("maps", "map_id", "maps.id")
+      .then((results) => {
+        res.json(results);
+      });
+  });
+
   return router;
 };
