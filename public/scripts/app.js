@@ -1,3 +1,4 @@
+let allMarkers = []; //stores all the markers on the map for editting and deleting.
 var map;
 //THE ALL IMPORTANT MAP DRAWING FUNCTION
 function initMap() {
@@ -18,15 +19,18 @@ function initMap() {
       //Gets the longitude and latitude of the current marker
       let markerDot = {lat:Number(point.latitude), lng:Number(point.longitude)};
 
-      //Prepares infowindow
-      let infoWindow = new google.maps.InfoWindow({
-        content: generateInforWindowContent(point.description, point.title, point.id) //TODO might want to a variable that holds template literal variable for <divs> and classes to make styling easier
-      });
-
       //Draws the marker on the map
       let marker = new google.maps.Marker({
+        markerId: point.id,
         position: markerDot,
         map: gmap
+      });
+      //Add current marker to allmarkers array
+      allMarkers.push(marker);
+
+      //Prepares infowindow
+      let infoWindow = new google.maps.InfoWindow({
+        content: generateInforWindowContent(point.description, point.title, point.id, marker) //TODO might want to a variable that holds template literal variable for <divs> and classes to make styling easier
       });
 
       //Makes infowindow appear on marker click
@@ -38,7 +42,8 @@ function initMap() {
   });
 }
 
-let generateInforWindowContent = (description, title, id) => {
+let generateInforWindowContent = (description, title, id, marker) => {
+  //Returns the HTML for the infoWindow
   return `
       <h3>${title}</h3>
       <div>
@@ -51,14 +56,23 @@ let generateInforWindowContent = (description, title, id) => {
     `;
 };
 
-let deleteMarker = (id) => {
-  console.log(id);
-  $.ajax({
-    method: "POST",
-    url: "/api/markers/delete",
-    data: $.param({data: id}),
-    success: initMap
-  });
+let deleteMarker =  (id) => {
+  //DELETES THE MARKER FROM THE DB - UNCOMMENT TO WORK WITH DB
+  // $.ajax({
+  //   method: "POST",
+  //   url: "/api/markers/delete",
+  //   data: $.param({data: id}),
+  //   // success: initMap //remove once front end delete works
+  // });
+
+  //Looks through the all markers array
+  for (let i of allMarkers) {
+    //If the current marker in allMarkers has the same id as the id we want to delete
+    if (i.markerId == id) {
+      //Hide it from the browser
+      i.setMap(null);
+    }
+  }
 };
 
 let editMarker = () => {
