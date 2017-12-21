@@ -10,7 +10,7 @@ function initMap() {
     //DRAW THE GOOGLE MAP
     gmap = new google.maps.Map(document.getElementById('map'), {
       center: {lat:0, lng: 0}, //TODO make a relevant center depending on the map
-      zoom: 8
+      zoom: 1
     });
 
     //Looks at all of the markers from the map DB
@@ -20,7 +20,7 @@ function initMap() {
 
       //Prepares infowindow
       let infoWindow = new google.maps.InfoWindow({
-        content: point.description //TODO might want to a variable that holds template literal variable for <divs> and classes to make styling easier
+        content: generateInforWindowContent(point.description, point.title, point.id) //TODO might want to a variable that holds template literal variable for <divs> and classes to make styling easier
       });
 
       //Draws the marker on the map
@@ -38,5 +38,29 @@ function initMap() {
   });
 }
 
+let generateInforWindowContent = (description, title, id) => {
+  return `
+      <h3>${title}</h3>
+      <div>
+        ${description}
+      </div>
+      <div>
+        <button class="btn" onclick=editMarker()>edit</button>
+        <button class="btn" onclick=deleteMarker(${id})>delete</button>
+      </div>
+    `;
+};
 
-const string = "FILLER";
+let deleteMarker = (id) => {
+  console.log(id);
+  $.ajax({
+    method: "POST",
+    url: "/api/markers/delete",
+    data: $.param({data: id}),
+    success: initMap
+  });
+};
+
+let editMarker = () => {
+
+};

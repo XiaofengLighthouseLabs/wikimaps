@@ -14,5 +14,14 @@ module.exports = (knex) => {
     });
   });
 
+  router.post("/delete", (req, res) => {
+    knex("markers")
+      .where("id", Number([req.body.data]))
+      .del()
+      .then (() =>{
+        res.status(200).send("deleted");
+      });
+  });
+
   return router;
 };
