@@ -13,6 +13,28 @@ function initMap() {
       center: {lat:0, lng: 0}, //TODO make a relevant center depending on the map
       zoom: 1
     });
+//single click to add a new point
+    gmap.addListener('click', function(e) {
+              placeMarkerAndPanTo(e.latLng, gmap);
+            });
+
+//make a new info window
+    function placeMarkerAndPanTo(latLng, map) {
+      var marker = new google.maps.Marker({
+        position: latLng,
+        map: map
+      });
+      map.panTo(latLng);
+      let infoWindow = new google.maps.InfoWindow({
+        content: generateNewInforWindowContent()
+      });
+//Makes infowindow appear on marker click
+      infoWindow.open(gmap, marker);
+    }
+
+
+
+
 
     //Looks at all of the markers from the map DB
     for(let point of maps) {
@@ -31,6 +53,7 @@ function initMap() {
       //Prepares infowindow
       let infoWindow = new google.maps.InfoWindow({
         content: generateInforWindowContent(point.description, point.title, point.id, point.image_url) //TODO might want to a variable that holds template literal variable for <divs> and classes to make styling easier
+
       });
 
       //Makes infowindow appear on marker click
@@ -67,6 +90,28 @@ let generateInforWindowContent = (description, title, id, image_url) => {
         <div>
           <button class="btn">edit</button>
           <button class="btn" onclick=deleteMarker(${id})>delete</button>
+        </div>
+      </form>
+    `;
+};
+
+let generateNewInforWindowContent = () => {
+  //Returns the HTML for the infoWindow
+  return `
+      <form onsubmit=logMarker(event)>
+        <input type="hidden" value="" name="form_id" />
+        <h3>
+          <textarea name='title' placeholder='Your new map title'></textarea>
+        </h3>
+        <div>
+          <textarea name='description' placeholder='Your description'></textarea>
+        </div>
+        <div>
+          <textarea name='image_url' placeholder='Image'></textarea>
+        </div>
+        <div>
+          <button class="btn">save</button>
+          <button class="btn">cancel</button>
         </div>
       </form>
     `;
