@@ -1,5 +1,5 @@
-let allMarkers = []; //stores all the markers on the map for editting and deleting.
-var map;
+const allMarkers = []; //stores all the markers on the map for editting and deleting.
+let map;
 //THE ALL IMPORTANT MAP DRAWING FUNCTION
 function initMap() {
 
@@ -75,7 +75,7 @@ const logMarker = (e) => {
   console.log($(e.target).serialize());
 }
 
-let generateInforWindowContent = (description, title, id, image_url) => {
+const generateInforWindowContent = (description, title, id, image_url) => {
   //Returns the HTML for the infoWindow
   return `
       <form id="${id}" onsubmit=editMarker(event)>
@@ -97,7 +97,7 @@ let generateInforWindowContent = (description, title, id, image_url) => {
     `;
 };
 
-let generateNewInforWindowContent = (lat, lng) => {
+const generateNewInforWindowContent = (lat, lng) => {
 
   //Returns the HTML for the infoWindow
   return `
@@ -120,7 +120,7 @@ let generateNewInforWindowContent = (lat, lng) => {
     `;
 };
 
-let deleteMarker =  (id) => {
+const deleteMarker =  (id) => {
   //DELETES THE MARKER FROM THE DB - UNCOMMENT TO WORK WITH DB
   // $.ajax({
   //   method: "POST",
@@ -139,7 +139,7 @@ let deleteMarker =  (id) => {
   }
 };
 
-let editMarker = (event) => {
+const editMarker = (event) => {
   event.preventDefault();
   $.ajax({
     method: "POST",
@@ -150,7 +150,7 @@ let editMarker = (event) => {
   });
 };
 
-let addMarker = (event) => {
+const addMarker = (event) => {
   event.preventDefault();
   $.ajax({
     method: "POST",
@@ -160,17 +160,27 @@ let addMarker = (event) => {
   });
 };
 
-
-let getFaves = () => {
+const getFaves = () => {
   $.ajax({
     method: "GET",
     url: "/api/1/markers/faves"
   }).done((results) => {
+    for (let fav of results) {
     $('#faves').append(`<li>${results[0].title}</li>`);
+    }
   });
 };
 
 getFaves();
+
+const addFav = () => {
+  $.ajax({
+    method: "POST",
+    url: "/api/1/markers/faves"
+  }).done((results) => {
+    getFaves();
+  });
+};
 
 let contribution = () => {
   $.ajax({
