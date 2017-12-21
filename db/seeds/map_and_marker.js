@@ -3,6 +3,9 @@ exports.seed = function(knex, Promise) {
   // Deletes ALL existing entries
   return knex('markers').del()
     .then(function () {
+      return knex('fave_maps').del();
+    })
+    .then(function () {
       return knex('maps').del();
     })
     .then(function () {

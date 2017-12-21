@@ -36,6 +36,8 @@ function initMap() {
       //Makes infowindow appear on marker click
       marker.addListener('click', function() {
         infoWindow.open(gmap, marker);
+
+
       });
     }
 
@@ -78,3 +80,22 @@ let deleteMarker =  (id) => {
 let editMarker = () => {
 
 };
+
+let getFaves = () => {
+  $.ajax({
+    method: "GET",
+    url: "/api/markers/faves"
+  }).done((results) => {
+    $('#faves').append(`<li>${results[0].title}</li>`);
+    console.log(results[0]);
+  });
+};
+
+getFaves();
+
+
+
+
+
+
+
