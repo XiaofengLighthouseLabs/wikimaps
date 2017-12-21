@@ -33,6 +33,9 @@ function initMap() {
       });
 //Makes infowindow appear on marker click
       infoWindow.open(gmap, marker);
+        marker.addListener('click', function() {
+          infoWindow.open(map, marker);
+          });
     }
 
     //Looks at all of the markers from the map DB
