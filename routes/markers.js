@@ -61,18 +61,18 @@ module.exports = (knex) => {
 
   router.post("/:id/markers/faves", (req, res) => {
     knex
-    .select("*").from("fave_maps").where({map_id: 1, user_id: 1})
-      .then ((results) => {
-        if (!results) {
-          return knex("fave_maps")
-          .insert({user_id: 1, map_id: req.params.id})
-        } else {
-          return;
-        }
-    })
-        .then((results) => {
-          res.status(200).send("favourited");
-        });
+      .select("*").from("fave_maps").where({map_id: req.params.id, user_id: 1})
+        .then ((results) => {
+          if (results.length === 0) {
+            return knex("fave_maps")
+            .insert({user_id: 1, map_id: req.params.id})
+          } else {
+            return;
+          }
+      })
+      .then((results) => {
+        res.status(200).send("favourited");
+      });
   });
 
   router.get("/:id/markers/contributions", (req, res) => {

@@ -1,7 +1,13 @@
 const allMarkers = []; //stores all the markers on the map for editting and deleting.
+let currentMap = 3;
 let map;
 //THE ALL IMPORTANT MAP DRAWING FUNCTION
 const initMap = (id) => {
+  if (!id) {
+    id = currentMap;
+  } else {
+    currentMap = id;
+  }
 console.log(id);
   $.ajax({
     method: "GET",
@@ -184,13 +190,13 @@ const getMap = (event) => {
 const addFav = () => {
   $.ajax({
     method: "POST",
-    url: "/api/1/markers/faves"
+    url: `/api/${currentMap}/markers/faves`
   }).done((results) => {
     getFaves();
   });
 };
 
-let contribution = () => {
+const contribution = () => {
   $.ajax({
     method: "GET",
     url: "/api/1/markers/contributions"
@@ -204,9 +210,7 @@ let contribution = () => {
 
 contribution();
 
-initMap(1);
-
-
+initMap(currentMap);
 
 
 
