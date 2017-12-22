@@ -1,11 +1,11 @@
 const allMarkers = []; //stores all the markers on the map for editting and deleting.
 let map;
 //THE ALL IMPORTANT MAP DRAWING FUNCTION
-function initMap() {
-
+const initMap = (id) => {
+console.log(id);
   $.ajax({
     method: "GET",
-    url: "/api/1/markers" //TODO change the call to /api/:id(map)/markers so that we only get the relevant markers
+    url: `/api/${id}/markers` //TODO change the call to /api/:id(map)/markers so that we only get the relevant markers
   }).done((maps) => {
 
     //DRAW THE GOOGLE MAP
@@ -166,12 +166,17 @@ const getFaves = () => {
     url: "/api/1/markers/faves"
   }).done((results) => {
     for (let fav of results) {
-    $('#faves').append(`<li>${results[0].title}</li>`);
+    $('#faves').append(`<li data-map_id="${fav.map_id}" onclick="getMap(event)">${fav.title}</li>`);
     }
   });
 };
 
 getFaves();
+
+const getMap = (event) => {
+  console.log($(event.target).data("map_id"));
+    initMap(Number($(event.target).data("map_id")));
+};
 
 const addFav = () => {
   $.ajax({
@@ -193,6 +198,8 @@ let contribution = () => {
 };
 
 contribution();
+
+initMap(1);
 
 
 
