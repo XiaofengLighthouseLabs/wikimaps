@@ -165,6 +165,7 @@ const getFaves = () => {
     method: "GET",
     url: "/api/1/markers/faves"
   }).done((results) => {
+    $("#faves").empty();
     for (let fav of results) {
     $('#faves').append(`<li data-map_id="${fav.map_id}" onclick="getMap(event)">${fav.title}</li>`);
     }
