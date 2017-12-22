@@ -157,6 +157,8 @@ const addMarker = (event) => {
     url: "api/1/markers/new",
     data: $(event.target).serialize(),
       success: console.log("created new point")
+  }).done((results) => {
+    contribution();
   });
 };
 
@@ -193,14 +195,16 @@ let contribution = () => {
     method: "GET",
     url: "/api/1/markers/contributions"
   }).done((results) => {
+    $("#contributions").empty();
+    for (let contribution of results) {
     $('#contributions').append(`<li>${results[0].title}</li>`);
-      console.log(results[0]);
+    }
   });
 };
 
 contribution();
 
-initMap(3);
+initMap(1);
 
 
 

@@ -19,7 +19,11 @@ module.exports = (knex) => {
     knex("markers")
       .insert({map_id: req.params.id, title: req.body.title, description: req.body.description, image_url: req.body.image_url, latitude: Number(req.body.lat), longitude: Number(req.body.lng)})
       .then (() => {
-        res.status(200).send("new map added");
+        return knex("contribution")
+        .insert({user_id: 1, map_id: 1})
+      })
+      .then (() => {
+        res.status(200).send("new point added");
       });
   });
 
