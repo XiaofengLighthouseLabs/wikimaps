@@ -200,7 +200,7 @@ let contribution = () => {
 
 contribution();
 
-initMap(1);
+initMap(3);
 
 
 
