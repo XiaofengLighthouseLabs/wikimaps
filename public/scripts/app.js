@@ -203,7 +203,7 @@ const getContributions = () => {
   }).done((results) => {
     $("#contributions").empty();
     for (let contribution of results) {
-    $('#contributions').append(`<li>${results[0].title}</li>`);
+    $('#contributions').append(`<li>${contribution.title}</li>`);
     }
   });
 };
