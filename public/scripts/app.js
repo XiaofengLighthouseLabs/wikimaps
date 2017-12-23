@@ -1,85 +1,86 @@
 const allMarkers = []; //stores all the markers on the map for editting and deleting.
-let currentMap = 3;
+let currentMap = 2;
 let map;
+
+
 //THE ALL IMPORTANT MAP DRAWING FUNCTION
 const initMap = (id) => {
-  if (!id) {
-    id = currentMap;
-  } else {
-    currentMap = id;
-  }
-console.log(id);
   $.ajax({
     method: "GET",
     url: `/api/${id}/markers` //TODO change the call to /api/:id(map)/markers so that we only get the relevant markers
-  }).done((maps) => {
+  }).done((map) => {
 
     //DRAW THE GOOGLE MAP
     gmap = new google.maps.Map(document.getElementById('map'), {
       center: {lat:43, lng: -79.3}, //TODO make a relevant center depending on the map
       zoom: 4
     });
-//single click to add a new point
+
+    //single click to add a new point
     gmap.addListener('click', function(e) {
-              placeMarkerAndPanTo(e.latLng, gmap);
-
-            });
-
-//make a new info window
-    function placeMarkerAndPanTo(latLng, map) {
-      var marker = new google.maps.Marker({
-        position: latLng,
-        map: map
-      });
-      map.panTo(latLng);
-      console.log(Number(marker.getPosition().lat()));
-
-      let infoWindow = new google.maps.InfoWindow({
-        content: generateNewInforWindowContent(marker.getPosition().lat(), marker.getPosition().lng())
-      });
-//Makes infowindow appear on marker click
-      infoWindow.open(gmap, marker);
-        marker.addListener('click', function() {
-          infoWindow.open(map, marker);
-          });
-    }
+      placeMarkerAndPanTo(e.latLng, gmap);
+    });
 
     //Looks at all of the markers from the map DB
-    for(let point of maps) {
-      //Gets the longitude and latitude of the current marker
-      let markerDot = {lat:Number(point.latitude), lng:Number(point.longitude)};
+    for(let point of map) {
 
-      //Draws the marker on the map
-      let marker = new google.maps.Marker({
-        markerId: point.id,
-        position: markerDot,
-        map: gmap
-      });
+      //Draw marker on current map
+      let marker = drawMarker(point, gmap);
       //Add current marker to allmarkers array
       allMarkers.push(marker);
 
       //Prepares infowindow
       let infoWindow = new google.maps.InfoWindow({
         content: generateInforWindowContent(point.description, point.title, point.id, point.image_url) //TODO might want to a variable that holds template literal variable for <divs> and classes to make styling easier
-
       });
 
       //Makes infowindow appear on marker click
       marker.addListener('click', function() {
         infoWindow.open(gmap, marker);
-
-
       });
     }
 
   });
-}
+};
+
+const drawMarker = (point, gmap) => {
+  //Gets the longitude and latitude of the current marker
+  let markerDot = {lat:Number(point.latitude), lng:Number(point.longitude)};
+
+  //Draws the marker on the map
+  let marker = new google.maps.Marker({
+    markerId: point.id,
+    position: markerDot,
+    map: gmap
+  });
+
+  return marker;
+};
+
+//make a new info window
+const placeMarkerAndPanTo =(latLng, map) => {
+  var marker = new google.maps.Marker({
+    position: latLng,
+    map: map
+  });
+  map.panTo(latLng);
+
+  let infoWindow = new google.maps.InfoWindow({
+    content: generateNewInforWindowContent(marker.getPosition().lat(), marker.getPosition().lng())
+  });
+  //Open the infoWindow just created
+  infoWindow.open(map, marker);
+  //Makes infowindow appear on marker click
+  marker.addListener('click', function() {
+    infoWindow.open(map, marker);
+  });
+};
 
 const logMarker = (e) => {
   e.preventDefault();
   console.log(e.target.id);
   console.log($(e.target).serialize());
-}
+};
 
 const generateInforWindowContent = (description, title, id, image_url) => {
   //Returns the HTML for the infoWindow
@@ -180,8 +181,6 @@ const getFaves = () => {
   });
 };
 
-getFaves();
-
 const getMap = (event) => {
   console.log($(event.target).data("map_id"));
     initMap(Number($(event.target).data("map_id")));
@@ -196,7 +195,7 @@ const addFav = () => {
   });
 };
 
-const contribution = () => {
+const getContributions = () => {
   $.ajax({
     method: "GET",
     url: "/api/1/markers/contributions"
@@ -208,7 +207,9 @@ const contribution = () => {
   });
 };
 
-contribution();
+getContributions();
+
+getFaves();
 
 initMap(currentMap);
 
