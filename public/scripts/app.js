@@ -172,7 +172,20 @@ const getMapTitle = (id) =>{
     url: `/api/${id}/`
   }).done((results) => {
     $('#map-title').text(`<h3>${results[0].title}</h3>`);
-    console.log("title should be", results[0].title);
+  });
+};
+
+const discoverMaps = () => {
+  console.log("DISCOVERING MAPS");
+  $.ajax({
+    method: "GET",
+    url: "/api/maps"
+  }).done((results) => {
+    console.log(results);
+    for (let map of results) {
+      console.log(map.title);
+      $('#discover-list').append(`<li>${map.title}</li>`);
+    }
   });
 };
 
@@ -223,7 +236,7 @@ const initMap = (id) => {
 initMap(currentMap);
 getFaves();
 getContributions();
-
+discoverMaps();
 
 
 
