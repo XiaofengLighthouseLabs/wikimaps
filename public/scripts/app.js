@@ -84,7 +84,7 @@ const logMarker = (e) => {
 const generateInforWindowContent = (description, title, id, image_url) => {
   //Returns the HTML for the infoWindow
   return `
-      <form id="${id}" onsubmit=editMarker(event)>
+      <form class="info-window" id="${id}" onsubmit=editMarker(event)>
         <input type="hidden" value="${id}" name="form_id" />
         <h3>
           <textarea name='title'>${title}</textarea>
@@ -93,7 +93,7 @@ const generateInforWindowContent = (description, title, id, image_url) => {
           <textarea name='description'>${description}</textarea>
         </div>
         <div>
-          <textarea name='image_url'>${image_url}</textarea>
+          <img src=${image_url} name='image_url' />
         </div>
         <div>
           <button class="btn">edit</button>
