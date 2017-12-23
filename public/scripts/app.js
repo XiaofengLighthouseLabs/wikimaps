@@ -2,48 +2,6 @@ const allMarkers = []; //stores all the markers on the map for editting and dele
 let currentMap = 2;
 let map;
 
-
-//THE ALL IMPORTANT MAP DRAWING FUNCTION
-const initMap = (id) => {
-  currentMap = id;
-  $.ajax({
-    method: "GET",
-    url: `/api/${id}/markers` //TODO change the call to /api/:id(map)/markers so that we only get the relevant markers
-  }).done((map) => {
-
-    //DRAW THE GOOGLE MAP
-    gmap = new google.maps.Map(document.getElementById('map'), {
-      center: {lat:43, lng: -79.3}, //TODO make a relevant center depending on the map
-      zoom: 4
-    });
-
-    //single click to add a new point
-    gmap.addListener('click', function(e) {
-      placeMarkerAndPanTo(e.latLng, gmap);
-    });
-
-    //Looks at all of the markers from the map DB
-    for(let point of map) {
-
-      //Draw marker on current map
-      let marker = drawMarker(point, gmap);
-      //Add current marker to allmarkers array
-      allMarkers.push(marker);
-
-      //Prepares infowindow
-      let infoWindow = new google.maps.InfoWindow({
-        content: generateInforWindowContent(point.description, point.title, point.id, point.image_url) //TODO might want to a variable that holds template literal variable for <divs> and classes to make styling easier
-      });
-
-      //Makes infowindow appear on marker click
-      marker.addListener('click', function() {
-        infoWindow.open(gmap, marker);
-      });
-    }
-
-  });
-};
-
 const drawMarker = (point, gmap) => {
   //Gets the longitude and latitude of the current marker
   let markerDot = {lat:Number(point.latitude), lng:Number(point.longitude)};
@@ -208,11 +166,52 @@ const getContributions = () => {
   });
 };
 
-getContributions();
+//THE ALL IMPORTANT MAP DRAWING FUNCTION
+const initMap = (id) => {
+  currentMap = id;
+  $.ajax({
+    method: "GET",
+    url: `/api/${id}/markers` //TODO change the call to /api/:id(map)/markers so that we only get the relevant markers
+  }).done((map) => {
 
-getFaves();
+    //DRAW THE GOOGLE MAP
+    gmap = new google.maps.Map(document.getElementById('map'), {
+      center: {lat:43, lng: -79.3}, //TODO make a relevant center depending on the map
+      zoom: 4
+    });
+
+    //single click to add a new point
+    gmap.addListener('click', function(e) {
+      placeMarkerAndPanTo(e.latLng, gmap);
+    });
+
+    //Looks at all of the markers from the map DB
+    for(let point of map) {
+
+      //Draw marker on current map
+      let marker = drawMarker(point, gmap);
+      //Add current marker to allmarkers array
+      allMarkers.push(marker);
+
+      //Prepares infowindow
+      let infoWindow = new google.maps.InfoWindow({
+        content: generateInforWindowContent(point.description, point.title, point.id, point.image_url) //TODO might want to a variable that holds template literal variable for <divs> and classes to make styling easier
+      });
+
+      //Makes infowindow appear on marker click
+      marker.addListener('click', function() {
+        infoWindow.open(gmap, marker);
+      });
+    }
+
+  });
+};
 
 initMap(currentMap);
+getFaves();
+getContributions();
+
+
 
 
 
