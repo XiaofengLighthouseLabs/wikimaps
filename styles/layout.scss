@@ -7,6 +7,9 @@
 $background: #EEE;
 $nav-background: #DDD;
 $text-color: #244751;
+$highlight: #EFF;
+$edit: #EFE;
+$delete: #FBB;
 
 
 /*text
@@ -19,8 +22,9 @@ body {
   color: $text-color;
 
   main {
-    padding: 150px 60px;
+    padding: 150px 40px;
     font-size: large;
+    width:380px;
   }
   div#map {
     height: 100vh;
@@ -57,6 +61,15 @@ nav {
   }
 }
 
+#map-title {
+  font-weight: bold;
+  border: 2px solid $text-color;
+  width: 95%;
+  margin-bottom: 10px;
+  padding: 10px;
+  background: $highlight;
+}
+
 .fav-button {
   border-radius: 5px;
     &:hover {
@@ -67,13 +80,35 @@ nav {
 
 form.info-window {
   border-radius: 5px;
+  padding: 5px;
   img {
     height: 110px;
     display: inline;
     }
   .btn {
-/*    margin-top: 35px;*/
+    /*margin-top: 35px;*/
+    background-color: $highlight;
+    border: 1px solid $text-color;
+    margin: 5px 0 0 10px;
+      &.edit:hover {
+        background-color: $edit;
+    }
+      &.delete:hover {
+        background-color: $delete;
+      }
   }
+}
+
+form.new-window {
+  padding: 5px;
+    .btn {
+      background-color: $highlight;
+      border: 1px solid $text-color;
+      margin: 5px 0 0 10px;
+        &:hover {
+          background-color: $edit;
+        }
+    }
 }
 
 footer {

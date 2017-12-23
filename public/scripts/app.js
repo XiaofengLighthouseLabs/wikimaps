@@ -56,8 +56,8 @@ const generateInforWindowContent = (description, title, id, image_url) => {
           <img src=${image_url} name='image_url' />
         </div>
         <div>
-          <button class="btn">edit</button>
-          <button class="btn" onclick=deleteMarker(${id})>delete</button>
+          <button class="btn edit">edit</button>
+          <button class="btn delete" onclick=deleteMarker(${id})>delete</button>
         </div>
       </form>
     `;
@@ -67,20 +67,20 @@ const generateNewInforWindowContent = (lat, lng) => {
 
   //Returns the HTML for the infoWindow
   return `
-      <form onsubmit=addMarker(event)>
+      <form class="new-window" onsubmit=addMarker(event)>
         <input type="hidden" value="${lat}" name="lat" />
         <input type="hidden" value="${lng}" name="lng" />
         <h3>
-          <textarea name='title' placeholder='Your new map title'></textarea>
+          <textarea name='title' placeholder='Your new map title' required></textarea>
         </h3>
         <div>
-          <textarea name='description' placeholder='Your description'></textarea>
+          <textarea name='description' placeholder='Your description' required></textarea>
         </div>
         <div>
-          <textarea name='image_url' placeholder='Image'></textarea>
+          <input name='image_url' placeholder='Image url' type="url" required></textarea>
         </div>
         <div>
-          <button class="btn">save</button>
+          <button class="btn save">save</button>
         </div>
       </form>
     `;
@@ -171,7 +171,7 @@ const getMapTitle = (id) =>{
     method: "GET",
     url: `/api/${id}/`
   }).done((results) => {
-    $('#map-title').text(`<h3>${results[0].title}</h3>`);
+    $('#map-title').text(`Current Map: ${results[0].title}`);
     console.log("title should be", results[0].title);
   });
 };
