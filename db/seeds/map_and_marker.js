@@ -12,6 +12,16 @@ exports.seed = function(knex, Promise) {
     .then(function () {
       return knex('maps').del();
     })
+    .then(function() {
+      return knex('users').del();
+    })
+    .then(function () {
+      return Promise.all([
+        knex('users').insert({id: 1, name: 'test'}),
+        knex('users').insert({id: 2, name: 'test2'}),
+        knex('users').insert({id: 3, name: 'test3'}),
+        ]);
+    })
     .then(function () {
       return Promise.all([
         // Inserts seed entries
@@ -19,7 +29,8 @@ exports.seed = function(knex, Promise) {
         knex('maps').insert({user_id: 2, title: 'weird Arizona things', date_created: '20171221'}),
         knex('maps').insert({user_id: 3, title: 'logos from the sky', date_created: '20171221'})
       ]);
-    }).then(function () {
+    })
+    .then(function () {
       return Promise.all([
         knex('markers').insert({map_id: 1, longitude: 43.6, latitude: -79.3, title: 'mymarker', description: 'stuff', image_url: 'http://channel.nationalgeographic.com/exposure/content/photo/photo/45067_king-penguin_2celqsmn7wjoruiarckfuqxvt62ptt7hevj74cagwi5qbj2htjuq_757x567.jpg'}),
         knex('markers').insert({map_id: 1, longitude: -79.3, latitude: 43.6, title: 'mymarker', description: 'stuff', image_url: 'http://www.seetorontonow.com/wp-content/uploads/2017/11/toronto-skyline-winter.jpg'}),

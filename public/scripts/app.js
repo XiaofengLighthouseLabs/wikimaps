@@ -165,7 +165,7 @@ const addMarker = (event) => {
     data: $(event.target).serialize(),
       success: console.log("created new point")
   }).done((results) => {
-    contribution();
+    getContributions();
   });
 };
 
