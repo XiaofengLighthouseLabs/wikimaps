@@ -3,6 +3,10 @@
 const express = require('express');
 const router  = express.Router();
 
+const getYearMonthDay = () => {
+  return new Date();
+};
+
 module.exports = (knex) => {
 
   //This route is for "discovering" maps
@@ -10,6 +14,16 @@ module.exports = (knex) => {
     knex
     .select("*")
     .from("maps")
+    .then((results) => {
+      res.json(results);
+    });
+  });
+
+  //This route is adding new maps
+  router.post("/maps", (req, res) => {
+    knex("maps")
+    .insert({user_id: req.body.user_id, title: req.body.title, date_created: getYearMonthDay()})
+    .returning('id')
     .then((results) => {
       res.json(results);
     });
