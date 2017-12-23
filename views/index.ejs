@@ -1,24 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Home Page</title>
+    <title>📍Wiki maps📍</title>
+    <!--Bootstrap-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
     <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
-    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-
-
+    <!-- main stylesheet -->
+    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
 
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
-
     <script src="https://maps.googleapis.com/maps/api/js?key=<%= process.env.MAPS_KEY %>"
    async defer></script>
 
   </head>
-
+  <nav>
+    <img class="logo" src="/styles/map-marker-icon.png" alt="wiki maps logo">
+    <h1>Welcome to WikiMaps!</h1>
+    <button class="new">Create a New Map</button>
+  </nav>
   <body>
-    <h1>Hello World!</h1>
+
+    <div id="map"></div>
+    <main class="lists">
       <div>Favourite Maps</div>
         <ul id="faves">
 
@@ -26,9 +32,12 @@
       <div>Contributions</div>
         <ul id="contributions">
         </ul>
-        <button onclick="addFav()">Add this map to favourites</button>
-      <div id="map" style= 'height: 100vh; width: 50%; float: right;'></div>
+        <button class="fav-button" onclick="addFav()">Add this map to favourites</button>
+    </main>
 
+  <footer>
+    <p>📍 Made by Tymm &amp; Mary 📍 2017 📍</p>
+  </footer>
     <script type="text/javascript" src="/scripts/app.js"></script>
   </body>
 </html>

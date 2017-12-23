@@ -1,7 +1,78 @@
-body {
-  background-color: #EEE;
+/*////////////////////////////
 
-  h1 {
-    color: #244751;
+      colour scheme:
+
+/////////////////////////////*/
+
+$background: #EEE;
+$nav-background: #DDD;
+$text-color: #244751;
+
+
+/*text
+border
+
+font variable*/
+
+body {
+  background-color: $background;
+  color: $text-color;
+
+  main {
+    padding: 150px 60px;
+    font-size: large;
+  }
+  div#map {
+    height: 100vh;
+    width: 65%;
+    float: right;
   }
 }
+
+nav {
+  z-index: 3;
+  position: fixed;
+  width: 100%;
+  height: 120px;
+  padding: 15px;
+  background-color: $nav-background;
+  border-bottom: 5px solid $text-color;
+  .logo {
+    height: 80px;
+    width: 80px;
+    float: left;
+  }
+  h1 {
+    color: $text-color;
+    padding-left: 100px;
+  }
+  .new {
+    float: right;
+    margin-top: -10px;
+    border-radius: 5px;
+      &:hover {
+        background-color: invert($background);
+        color: invert($text-color);
+      }
+  }
+}
+
+.fav-button {
+  border-radius: 5px;
+    &:hover {
+    background-color: invert($background);
+    color: invert($text-color);
+  }
+}
+
+footer {
+   position: fixed;
+   left: 0px;
+   bottom: 0px;
+   height: 30px;
+   width: 100%;
+   background: $nav-background;
+   text-align: center;
+}
+
+
