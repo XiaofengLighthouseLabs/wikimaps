@@ -5,6 +5,7 @@ let map;
 
 //THE ALL IMPORTANT MAP DRAWING FUNCTION
 const initMap = (id) => {
+  currentMap = id;
   $.ajax({
     method: "GET",
     url: `/api/${id}/markers` //TODO change the call to /api/:id(map)/markers so that we only get the relevant markers
@@ -161,7 +162,7 @@ const addMarker = (event) => {
   event.preventDefault();
   $.ajax({
     method: "POST",
-    url: "api/1/markers/new",
+    url: `api/${currentMap}/markers`,
     data: $(event.target).serialize(),
       success: console.log("created new point")
   }).done((results) => {
@@ -198,7 +199,7 @@ const addFav = () => {
 const getContributions = () => {
   $.ajax({
     method: "GET",
-    url: "/api/1/markers/contributions"
+    url: `/api/${currentMap}/markers/contributions`
   }).done((results) => {
     $("#contributions").empty();
     for (let contribution of results) {
