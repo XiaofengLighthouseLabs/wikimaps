@@ -5,6 +5,17 @@ const router  = express.Router();
 
 module.exports = (knex) => {
 
+  //This is currently just to get the map totle
+  router.get("/:id", (req, res) => {
+    knex
+    .select("*")
+    .from("maps")
+    .where("id", Number(req.params.id))
+    .then((results) => {
+      res.json(results);
+    });
+  });
+
   router.get("/:id/markers", (req, res) => {
     knex
       .select("*")

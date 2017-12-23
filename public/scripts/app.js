@@ -166,9 +166,22 @@ const getContributions = () => {
   });
 };
 
+const getMapTitle = (id) =>{
+  $.ajax({
+    method: "GET",
+    url: `/api/${id}/`
+  }).done((results) => {
+    $('#map-title').text(`<h3>${results[0].title}</h3>`);
+    console.log("title should be", results[0].title);
+  });
+};
+
 //THE ALL IMPORTANT MAP DRAWING FUNCTION
 const initMap = (id) => {
   currentMap = id;
+
+  getMapTitle(id);
+
   $.ajax({
     method: "GET",
     url: `/api/${id}/markers` //TODO change the call to /api/:id(map)/markers so that we only get the relevant markers
