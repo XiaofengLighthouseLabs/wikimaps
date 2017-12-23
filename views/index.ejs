@@ -19,6 +19,12 @@
   <nav>
     <img class="logo" src="/styles/map-marker-icon.png" alt="wiki maps logo">
     <h1>Welcome to WikiMaps!</h1>
+      <form method="POST" action="/login">
+        <label> User Login: Email </label>
+        <input type=email name="email" placeholder="your email" style="width: 300px">
+        <input type=password name="password" placeholder="your password">
+        <input class="login-btn" type="submit" value="Login">
+      </form>
     <button class="new">Create a New Map</button>
   </nav>
   <body>
