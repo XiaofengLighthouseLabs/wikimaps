@@ -172,9 +172,52 @@ const getMapTitle = (id) =>{
     url: `/api/${id}/`
   }).done((results) => {
     $('#map-title').text(`Current Map: ${results[0].title}`);
-    console.log("title should be", results[0].title);
+
   });
 };
+
+const discoverMaps = () => {
+  $.ajax({
+    method: "GET",
+    url: "/api/maps"
+  }).done((results) => {
+    console.log(results);
+    for (let map of results) {
+      $('#discover-list').append(`<li>${map.title}</li>`);
+    }
+  });
+};
+
+const newMapForm = () => {
+  return `
+    <form id="new-map-form" onsubmit=addMap(event) style="margin-top: 100px;">
+      <input type="hidden" value="1" name="user_id" />
+      <h3>
+        <textarea name='title' placeholder='Your new map title'></textarea>
+      </h3>
+      <div>
+        <button class="btn">save</button>
+        <button class="btn" onclick="cancelNewMapForm()">Cancel</button>
+      </div>
+    </form>
+  `;
+};
+
+const cancelNewMapForm = () => {
+  $("new-map-form").remove();
+};
+
+const addMap = (event) => {
+  event.preventDefault();
+  $.ajax({
+    method: "POST",
+    url: "/api/maps",
+    data: $(event.target).serialize(),
+  }).done((results) => {
+    initMap(results[0]);
+  });
+};
+
 
 //THE ALL IMPORTANT MAP DRAWING FUNCTION
 const initMap = (id) => {
@@ -223,10 +266,10 @@ const initMap = (id) => {
 initMap(currentMap);
 getFaves();
 getContributions();
+discoverMaps();
 
-
-
-
-
-
-
+$('#new-map-button').click((event) => {
+  $(event.target).hide();
+  $('#map >').hide();
+  $('#map').append(newMapForm());
+});
