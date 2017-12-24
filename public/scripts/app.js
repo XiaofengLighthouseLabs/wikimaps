@@ -197,17 +197,21 @@ const newMapForm = () => {
       </h3>
       <div>
         <button class="btn">save</button>
-        <button class="btn" onclick="cancelNewMapForm()">Cancel</button>
+        <button class="btn" onclick="cancelNewMapForm(event)">Cancel</button>
       </div>
     </form>
   `;
 };
 
-const cancelNewMapForm = () => {
-  $("new-map-form").remove();
+const cancelNewMapForm = (event) => {
+  event.preventDefault();
+  $("#new-map-form").remove();
+  $('#new-map-button').show();
+  $('#map >').show();
 };
 
 const addMap = (event) => {
+  $('#new-map-button').show();
   event.preventDefault();
   $.ajax({
     method: "POST",
