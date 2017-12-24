@@ -11,26 +11,34 @@ $highlight: #EFF;
 $edit: #EFE;
 $delete: #FBB;
 
-
-/*text
-border
-
-font variable*/
-
 body {
   background-color: $background;
   color: $text-color;
 
-  main {
-    padding: 150px 40px;
-    font-size: large;
-    width:380px;
-  }
-  div#map {
-    height: 100vh;
-    width: 65%;
-    float: right;
-  }
+    main {
+      padding: 150px 40px;
+      font-size: large;
+      width:380px;
+    }
+    div#map {
+      height: 100vh;
+      width: 65%;
+      float: right;
+        form#new-map-form {
+          margin: 150px;
+            .btn {
+              background-color: $highlight;
+              border: 1px solid $text-color;
+              margin: 5px 0 0 10px;
+                &.save-map-btn:hover {
+                  background-color: $edit;
+                }
+                &.cancel-map-btn:hover {
+                  background-color: $delete;
+                }
+            }
+        }
+    }
 }
 
 nav {
@@ -80,30 +88,29 @@ nav {
 .fav-button {
   border-radius: 5px;
     &:hover {
-    background-color: invert($background);
-    color: invert($text-color);
-  }
+      background-color: invert($background);
+      color: invert($text-color);
+    }
 }
 
 form.info-window {
   border-radius: 5px;
   padding: 5px;
-  img {
-    height: 110px;
-    display: inline;
-    }
-  .btn {
-    /*margin-top: 35px;*/
-    background-color: $highlight;
-    border: 1px solid $text-color;
-    margin: 5px 0 0 10px;
-      &.edit:hover {
-        background-color: $edit;
-    }
-      &.delete:hover {
-        background-color: $delete;
+    img {
+      height: 110px;
+      display: inline;
       }
-  }
+    .btn {
+      background-color: $highlight;
+      border: 1px solid $text-color;
+      margin: 5px 0 0 10px;
+        &.edit:hover {
+          background-color: $edit;
+        }
+        &.delete:hover {
+          background-color: $delete;
+        }
+    }
 }
 
 form.new-window {
@@ -119,13 +126,13 @@ form.new-window {
 }
 
 footer {
-   position: fixed;
-   left: 0px;
-   bottom: 0px;
-   height: 30px;
-   width: 100%;
-   background: $nav-background;
-   text-align: center;
+  position: fixed;
+  left: 0px;
+  bottom: 0px;
+  height: 30px;
+  width: 100%;
+  background: $nav-background;
+  text-align: center;
 }
 
 
