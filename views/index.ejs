@@ -26,7 +26,7 @@
 
 
     <img class="logo" src="/styles/map-marker-icon.png" alt="wiki maps logo">
-    <h1>Welcome to WikiMaps!</h1>
+    <h1 class="text-nowrap">Welcome to WikiMaps!</h1>
       <form method="POST" action="/login">
         <label>User Login: </label>
         <input type=email name="email" placeholder="your email" style="width: 300px">
@@ -69,15 +69,15 @@
     <main class="lists">
     <div id="map-title" class="lead"></div>
         <button class="fav-button" onclick="addFav()">Add this map to favourites</button>
-      <div>Discover</div>
+      <div class="text-center">Discover</div>
         <ul id="discover-list">
 
         </ul>
-      <div>Favourite Maps</div>
+      <div class="text-center">Favourite Maps</div>
         <ul id="faves">
 
         </ul>
-      <div>Contributions</div>
+      <div class="text-center">Contributions</div>
         <ul id="contributions">
         </ul>
     </main>

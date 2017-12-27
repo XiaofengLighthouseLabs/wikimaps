@@ -44,7 +44,6 @@ body {
 
 nav {
   z-index: 3;
-  position: fixed;
   width: 100%;
   height: 120px;
   padding: 15px;
@@ -57,7 +56,6 @@ nav {
     }
     h1 {
       color: $text-color;
-      padding-left: 100px;
     }
     .new {
       float: right;
@@ -169,6 +167,9 @@ footer {
   nav {
     height: 340px
   }
+    h1 {
+      font-size: 1.5rem;
+    }
   body div#map {
     width: 100%;
     height: 275px;
