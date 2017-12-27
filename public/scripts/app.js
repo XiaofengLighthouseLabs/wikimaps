@@ -90,7 +90,7 @@ const deleteMarker =  (id) => {
   //DELETES THE MARKER FROM THE DB - UNCOMMENT TO WORK WITH DB
   // $.ajax({
   //   method: "POST",
-  //   url: "/api/markers/delete",
+  //   url: "/maps/markers/delete",
   //   data: $.param({data: id}),
   //   // success: initMap //remove once front end delete works
   // });
@@ -109,7 +109,7 @@ const editMarker = (event) => {
   event.preventDefault();
   $.ajax({
     method: "POST",
-    url: "/api/1/markers/edit",
+    url: `/maps/${currentMap}/markers/edit`,
     data: $(event.target).serialize(),
       success: console.log("updated")
 
@@ -120,7 +120,7 @@ const addMarker = (event) => {
   event.preventDefault();
   $.ajax({
     method: "POST",
-    url: `api/${currentMap}/markers`,
+    url: `/maps/${currentMap}/markers`,
     data: $(event.target).serialize(),
       success: console.log("created new point")
   }).done((results) => {
@@ -131,7 +131,7 @@ const addMarker = (event) => {
 const getFaves = () => {
   $.ajax({
     method: "GET",
-    url: "/api/1/markers/faves"
+    url: "/users/1/faves"
   }).done((results) => {
     $("#faves").empty();
     for (let fav of results) {
@@ -148,7 +148,7 @@ const getMap = (event) => {
 const addFav = () => {
   $.ajax({
     method: "POST",
-    url: `/api/${currentMap}/markers/faves`
+    url: `/users/1/faves`
   }).done((results) => {
     getFaves();
   });
@@ -157,7 +157,7 @@ const addFav = () => {
 const getContributions = () => {
   $.ajax({
     method: "GET",
-    url: `/api/${currentMap}/markers/contributions`
+    url: `/users/1/contributions`
   }).done((results) => {
     $("#contributions").empty();
     for (let contribution of results) {
@@ -169,7 +169,7 @@ const getContributions = () => {
 const getMapTitle = (id) =>{
   $.ajax({
     method: "GET",
-    url: `/api/${id}/`
+    url: `/maps/${id}/`
   }).done((results) => {
     $('#map-title').text(`Current Map: ${results[0].title}`);
 
@@ -179,9 +179,8 @@ const getMapTitle = (id) =>{
 const discoverMaps = () => {
   $.ajax({
     method: "GET",
-    url: "/api/maps"
+    url: "/maps"
   }).done((results) => {
-    console.log(results);
     for (let map of results) {
       $('#discover-list').append(`<li>${map.title}</li>`);
     }
@@ -215,7 +214,7 @@ const addMap = (event) => {
   event.preventDefault();
   $.ajax({
     method: "POST",
-    url: "/api/maps",
+    url: "/maps",
     data: $(event.target).serialize(),
   }).done((results) => {
     initMap(results[0]);
@@ -231,7 +230,7 @@ const initMap = (id) => {
 
   $.ajax({
     method: "GET",
-    url: `/api/${id}/markers` //TODO change the call to /api/:id(map)/markers so that we only get the relevant markers
+    url: `/maps/${id}/markers` //TODO change the call to /api/:id(map)/markers so that we only get the relevant markers
   }).done((map) => {
 
     //DRAW THE GOOGLE MAP

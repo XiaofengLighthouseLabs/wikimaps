@@ -3,14 +3,11 @@
 const express = require('express');
 const router  = express.Router();
 
-const getYearMonthDay = () => {
-  return new Date();
-};
 
 module.exports = (knex) => {
 
   //This route is for "discovering" maps
-  router.get("/maps", (req, res) => {
+  router.get("/", (req, res) => {
     knex
     .select("*")
     .from("maps")
@@ -20,16 +17,16 @@ module.exports = (knex) => {
   });
 
   //This route is adding new maps
-  router.post("/maps", (req, res) => {
+  router.post("/", (req, res) => {
     knex("maps")
-    .insert({user_id: req.body.user_id, title: req.body.title, date_created: getYearMonthDay()})
+    .insert({user_id: req.body.user_id, title: req.body.title, date_created: new Date()})
     .returning('id')
     .then((results) => {
       res.json(results);
     });
   });
 
-  //This is currently just to get the map totle
+  //This is currently just to get the map title
   router.get("/:id", (req, res) => {
     knex
     .select("*")
@@ -54,6 +51,7 @@ module.exports = (knex) => {
     knex("markers")
       .insert({map_id: req.params.id, title: req.body.title, description: req.body.description, image_url: req.body.image_url, latitude: Number(req.body.lat), longitude: Number(req.body.lng)})
       .then (() => {
+        console.log("Searching for map id ", req.params.id);
         knex
         .select("*")
         .from("contribution")
@@ -88,42 +86,6 @@ module.exports = (knex) => {
       .del()
       .then (() =>{
         res.status(200).send("deleted");
-      });
-  });
-
-  router.get("/:id/markers/faves", (req, res) => {
-    knex
-      .select("*")
-      .from("fave_maps")
-      .innerJoin("maps", "map_id", "maps.id")
-      .then((results) => {
-        res.json(results);
-      });
-  });
-
-  router.post("/:id/markers/faves", (req, res) => {
-    knex
-      .select("*").from("fave_maps").where({map_id: req.params.id, user_id: 1})
-        .then ((results) => {
-          if (results.length === 0) {
-            return knex("fave_maps")
-            .insert({user_id: 1, map_id: req.params.id});
-          } else {
-            return;
-          }
-      })
-      .then((results) => {
-        res.status(200).send("favourited");
-      });
-  });
-
-  router.get("/:id/markers/contributions", (req, res) => {
-    knex
-      .select("*")
-      .from("contribution")
-      .innerJoin("maps", "map_id", "maps.id")
-      .then((results) => {
-        res.json(results);
       });
   });
 
