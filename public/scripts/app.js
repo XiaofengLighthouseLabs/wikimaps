@@ -163,7 +163,7 @@ const getContributions = () => {
   }).done((results) => {
     $("#contributions").empty();
     for (let contribution of results) {
-    $('#contributions').append(`<li> data-map_id="${contribution.map_id}" onclick="getMap(event)">${contribution.title}</li>`);
+    $('#contributions').append(`<li data-map_id="${contribution.map_id}" onclick="getMap(event)">${contribution.title}</li>`);
     }
   });
 };

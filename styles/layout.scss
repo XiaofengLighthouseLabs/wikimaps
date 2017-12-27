@@ -10,13 +10,14 @@ $text-color: #244751;
 $highlight: #EFF;
 $edit: #EFE;
 $delete: #FBB;
+$hover: #17A2B8;
 
 body {
   background-color: $background;
   color: $text-color;
 
     main {
-      padding: 150px 40px;
+      padding: 10px 40px;
       font-size: large;
       width:380px;
     }
@@ -25,7 +26,7 @@ body {
       width: 65%;
       float: right;
         form#new-map-form {
-          margin: 150px;
+          margin: 10px;
             .btn {
               background-color: $highlight;
               border: 1px solid $text-color;
@@ -125,6 +126,11 @@ form.new-window {
     }
 }
 
+li:hover {
+  cursor: pointer;
+  color: $hover;
+}
+
 footer {
   position: fixed;
   left: 0px;
@@ -133,6 +139,44 @@ footer {
   width: 100%;
   background: $nav-background;
   text-align: center;
+}
+
+@media (max-width: 990px) {
+  body main {
+    padding: 10px 20px;
+      #map-title {
+        border: none;
+        background: none;
+      }
+      div#map {
+        width: 100%;
+      }
+  }
+  nav {
+    height: 255px;
+      .new {
+        margin: 8px 0px;
+        display: inline;
+      }
+  }
+  .fav-button {
+    width: 175px
+  }
+
+}
+
+@media (max-width: 570px) {
+  nav {
+    height: 340px
+  }
+  body div#map {
+    width: 100%;
+    height: 275px;
+  }
+  .fav-button {
+    width: 175px
+  }
+
 }
 
 
