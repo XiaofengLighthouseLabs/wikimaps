@@ -125,6 +125,7 @@ const addMarker = (event) => {
       success: console.log("created new point")
   }).done((results) => {
     getContributions();
+    initMap(currentMap);
   });
 };
 
