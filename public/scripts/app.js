@@ -199,7 +199,7 @@ const newMapForm = () => {
       </h3>
       <div>
         <button class="btn save-map-btn">save</button>
-        <button class="btn cancel-map-btn" onclick="cancelNewMapForm(event)">Cancel</button>
+        <button class="btn cancel-map-btn" onclick="cancelNewMapForm(event)">cancel</button>
       </div>
     </form>
   `;
