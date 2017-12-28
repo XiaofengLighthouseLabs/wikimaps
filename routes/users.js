@@ -16,15 +16,16 @@ module.exports = (knex) => {
   });
 
   router.post("/:id/faves", (req, res) => {
+    const { currentMap } = req.body;
     knex
       .select("*")
       .from("fave_maps")
-      .where({map_id: req.body.id, user_id: req.params.id})
+      .where({map_id: currentMap, user_id: req.params.id})
       .then ((results) => {
           // If the map is not in the results, add a row to the fave_maps table
           if (results.length === 0) {
             return knex("fave_maps")
-              .insert({user_id: 1, map_id: req.params.id});
+              .insert({user_id: 1, map_id: currentMap});
           } else {
           // If the query results in a map, do not add anything to the table.
             return;
