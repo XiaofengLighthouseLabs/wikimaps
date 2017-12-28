@@ -25,7 +25,9 @@ const placeMarkerAndPanTo =(latLng, map) => {
   map.panTo(latLng);
 
   let infoWindow = new google.maps.InfoWindow({
+
     content: generateNewInforWindowContent(marker.getPosition().lat(), marker.getPosition().lng())
+
   });
   //Open the infoWindow just created
   infoWindow.open(map, marker);
@@ -162,7 +164,7 @@ const getContributions = () => {
   }).done((results) => {
     $("#contributions").empty();
     for (let contribution of results) {
-    $('#contributions').append(`<li>${contribution.title}</li>`);
+    $('#contributions').append(`<li data-map_id="${contribution.map_id}" onclick="getMap(event)">${contribution.title}</li>`);
     }
   });
 };
@@ -190,14 +192,14 @@ const discoverMaps = () => {
 
 const newMapForm = () => {
   return `
-    <form id="new-map-form" onsubmit=addMap(event) style="margin-top: 100px;">
+    <form id="new-map-form" onsubmit="addMap(event)">
       <input type="hidden" value="1" name="user_id" />
       <h3>
-        <textarea name='title' placeholder='Your new map title'></textarea>
+        <textarea name='title' placeholder='Your new map title' required></textarea>
       </h3>
       <div>
-        <button class="btn">save</button>
-        <button class="btn" onclick="cancelNewMapForm(event)">Cancel</button>
+        <button class="btn save-map-btn">save</button>
+        <button class="btn cancel-map-btn" onclick="cancelNewMapForm(event)">cancel</button>
       </div>
     </form>
   `;

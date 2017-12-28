@@ -15,38 +15,52 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=<%= process.env.MAPS_KEY %>"
    async defer></script>
 
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
   </head>
-  <nav>
+  <nav class="navbar navbar-expand-lg">
+
     <img class="logo" src="/styles/map-marker-icon.png" alt="wiki maps logo">
-    <h1>Welcome to WikiMaps!</h1>
+    <h1 class="text-nowrap">Welcome to WikiMaps!</h1>
       <form method="POST" action="/login">
-        <label> User Login: Email </label>
+        <label class="text-muted">User Login: </label>
         <input type=email name="email" placeholder="your email" style="width: 300px">
         <input type=password name="password" placeholder="your password">
         <input class="login-btn" type="submit" value="Login">
       </form>
+
+
+
+
     <button id="new-map-button" class="new">Create a New Map</button>
   </nav>
+
   <body>
+
     <div id="map"></div>
+
+
     <main class="lists">
     <div id="map-title" class="lead"></div>
-      <div>Discover</div>
+        <button class="fav-button" onclick="addFav()">Add this map to favourites</button>
+      <div class="text-center">Discover</div>
         <ul id="discover-list">
 
         </ul>
-      <div>Favourite Maps</div>
+      <div class="text-center">Favourite Maps</div>
         <ul id="faves">
 
         </ul>
-      <div>Contributions</div>
+      <div class="text-center">Contributions</div>
         <ul id="contributions">
         </ul>
-        <button class="fav-button" onclick="addFav()">Add this map to favourites</button>
     </main>
 
+
+
+
   <footer>
-    <p>📍 Made by Tymm &amp; Mary 📍 2017 📍</p>
+    <p class="text-muted">📍 Made by Tymm &amp; Mary 📍 2017 📍</p>
   </footer>
     <script type="text/javascript" src="/scripts/app.js"></script>
   </body>
