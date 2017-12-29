@@ -2,6 +2,10 @@
 
 WikiMaps is a new app where you can add points to a map, save it to your favourites, and see a list of your favourites and maps that you've contributed to. Maps can have as many points as you like, and include descriptions and photos that you can later edit. Make a map of favourite neighbourhood places, create a vacation wishlist, you name it!
 
+![Screenshot #1](https://github.com/ifellinaholeonce/wikimaps/blob/master/public/images/Screen%20Shot%202017-12-29%20at%2010.41.48%20AM.png?raw=true)
+![Screenshot #2](https://github.com/ifellinaholeonce/wikimaps/blob/master/public/images/Screen%20Shot%202017-12-29%20at%2010.42.19%20AM.png?raw=true)
+![Screenshot #3](https://github.com/ifellinaholeonce/wikimaps/blob/master/public/images/Screen%20Shot%202017-12-29%20at%2010.42.54%20AM.png?raw=true)
+
 
 ## Getting Started
 
