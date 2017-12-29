@@ -1,4 +1,4 @@
-const allMarkers = []; //stores all the markers on the map for editting and deleting.
+let allMarkers = []; //stores all the markers on the map for editting and deleting.
 let currentMap = 2;
 let map;
 
@@ -224,21 +224,34 @@ const addMap = (event) => {
   });
 };
 
+const getUserGeoLocation = () => {
+  //If browser has access to geolocation
+  if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function (position) {
+          return new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+      });
+   }
+   //If the browser doesn't have access to geolocation return Toronto
+   else {
+    return new google.maps.LatLng(43, -79.3);
+   }
+};
 
 //THE ALL IMPORTANT MAP DRAWING FUNCTION
 const initMap = (id) => {
   currentMap = id;
+  allMarkers = [];
 
   getMapTitle(id);
 
   $.ajax({
     method: "GET",
-    url: `/maps/${id}/markers` //TODO change the call to /api/:id(map)/markers so that we only get the relevant markers
+    url: `/maps/${id}/markers`
   }).done((map) => {
 
     //DRAW THE GOOGLE MAP
     gmap = new google.maps.Map(document.getElementById('map'), {
-      center: {lat:43, lng: -79.3}, //TODO make a relevant center depending on the map
+      center: {lat:43, lng: -79.3}, //Centers map to Toronton, this will be overriden by setCenter() below and is only here to initialize the map.
       zoom: 4
     });
 
@@ -252,7 +265,7 @@ const initMap = (id) => {
 
       //Draw marker on current map
       let marker = drawMarker(point, gmap);
-      //Add current marker to allmarkers array
+      //Add current marker to allMarkers array
       allMarkers.push(marker);
 
       //Prepares infowindow
@@ -265,6 +278,14 @@ const initMap = (id) => {
         infoWindow.open(gmap, marker);
       });
     }
+
+    gmap.setCenter(function() {
+      if (allMarkers == 0) {
+        return getUserGeoLocation();
+      } else {
+        return allMarkers[allMarkers.length - 1].getPosition();
+      }
+    }());
 
   });
 };
