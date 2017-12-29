@@ -151,7 +151,8 @@ const getMap = (event) => {
 const addFav = () => {
   $.ajax({
     method: "POST",
-    url: `/users/1/faves`
+    url: `/users/1/faves`,
+    data: $.param({currentMap: currentMap})
   }).done((results) => {
     getFaves();
   });
