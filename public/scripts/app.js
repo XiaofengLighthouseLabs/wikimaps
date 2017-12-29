@@ -138,7 +138,7 @@ const getFaves = () => {
   }).done((results) => {
     $("#faves").empty();
     for (let fav of results) {
-    $('#faves').append(`<li data-map_id="${fav.map_id}" onclick="getMap(event)">${fav.title}</li>`);
+    $('#faves').append(`<li data-map_id="${fav.map_id}" onclick="getMap(event)">${escape(fav.title)}</li>`);
     }
   });
 };
@@ -165,7 +165,7 @@ const getContributions = () => {
   }).done((results) => {
     $("#contributions").empty();
     for (let contribution of results) {
-    $('#contributions').append(`<li data-map_id="${contribution.map_id}" onclick="getMap(event)">${contribution.title}</li>`);
+    $('#contributions').append(`<li data-map_id="${contribution.map_id}" onclick="getMap(event)">${escape(contribution.title)}</li>`);
     }
   });
 };
@@ -176,7 +176,6 @@ const getMapTitle = (id) =>{
     url: `/maps/${id}/`
   }).done((results) => {
     $('#map-title').text(`Current Map: ${results[0].title}`);
-
   });
 };
 
@@ -186,7 +185,7 @@ const discoverMaps = () => {
     url: "/maps"
   }).done((results) => {
     for (let map of results) {
-      $('#discover-list').append(`<li>${map.title}</li>`);
+      $('#discover-list').append(`<li>${escape(map.title)}</li>`);
     }
   });
 };
@@ -236,6 +235,13 @@ const getUserGeoLocation = () => {
    else {
     return new google.maps.LatLng(43, -79.3);
    }
+};
+
+// Escape strings to prevent XSS
+let escape = (str) => {
+  let div = document.createElement('div');
+  div.appendChild(document.createTextNode(str));
+  return div.innerHTML;
 };
 
 //THE ALL IMPORTANT MAP DRAWING FUNCTION
