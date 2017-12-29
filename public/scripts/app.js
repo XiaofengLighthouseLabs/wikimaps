@@ -1,4 +1,4 @@
-const allMarkers = []; //stores all the markers on the map for editting and deleting.
+let allMarkers = []; //stores all the markers on the map for editting and deleting.
 let currentMap = 2;
 let map;
 
@@ -138,7 +138,7 @@ const getFaves = () => {
   }).done((results) => {
     $("#faves").empty();
     for (let fav of results) {
-    $('#faves').append(`<li data-map_id="${fav.map_id}" onclick="getMap(event)">${fav.title}</li>`);
+    $('#faves').append(`<li data-map_id="${fav.map_id}" onclick="getMap(event)">${escape(fav.title)}</li>`);
     }
   });
 };
@@ -165,7 +165,7 @@ const getContributions = () => {
   }).done((results) => {
     $("#contributions").empty();
     for (let contribution of results) {
-    $('#contributions').append(`<li data-map_id="${contribution.map_id}" onclick="getMap(event)">${contribution.title}</li>`);
+    $('#contributions').append(`<li data-map_id="${contribution.map_id}" onclick="getMap(event)">${escape(contribution.title)}</li>`);
     }
   });
 };
@@ -176,7 +176,6 @@ const getMapTitle = (id) =>{
     url: `/maps/${id}/`
   }).done((results) => {
     $('#map-title').text(`Current Map: ${results[0].title}`);
-
   });
 };
 
@@ -187,7 +186,8 @@ const discoverMaps = () => {
   }).done((results) => {
     $("#discover-list").empty();
     for (let map of results) {
-    $('#discover-list').append(`<li data-map_id="${map.id}" onclick="getMap(event)">${map.title}</li>`);
+    $('#discover-list').append(`<li data-map_id="${map.id}" onclick="getMap(event)">${escape(map.title)}</li>`);
+
     }
   });
 };
@@ -226,22 +226,44 @@ const addMap = (event) => {
   });
 };
 
+const getUserGeoLocation = () => {
+  //If browser has access to geolocation
+  if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function (position) {
+          return new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+      });
+   }
+   //If the browser doesn't have access to geolocation return Toronto
+   else {
+    return new google.maps.LatLng(43, -79.3);
+   }
+};
+
+// Escape strings to prevent XSS
+let escape = (str) => {
+  let div = document.createElement('div');
+  div.appendChild(document.createTextNode(str));
+  return div.innerHTML;
+};
 
 //THE ALL IMPORTANT MAP DRAWING FUNCTION
 const initMap = (id) => {
   currentMap = id;
+  allMarkers = [];
 
   getMapTitle(id);
 
   $.ajax({
     method: "GET",
-    url: `/maps/${id}/markers` //TODO change the call to /api/:id(map)/markers so that we only get the relevant markers
+    url: `/maps/${id}/markers`
   }).done((map) => {
 
     //DRAW THE GOOGLE MAP
     gmap = new google.maps.Map(document.getElementById('map'), {
-      center: {lat:43, lng: -79.3}, //TODO make a relevant center depending on the map
-      zoom: 3
+
+      center: {lat:43, lng: -79.3}, //Centers map to Toronton, this will be overriden by setCenter() below and is only here to initialize the map.
+      zoom: 4
+
     });
 
     //single click to add a new point
@@ -254,7 +276,7 @@ const initMap = (id) => {
 
       //Draw marker on current map
       let marker = drawMarker(point, gmap);
-      //Add current marker to allmarkers array
+      //Add current marker to allMarkers array
       allMarkers.push(marker);
 
       //Prepares infowindow
@@ -267,6 +289,14 @@ const initMap = (id) => {
         infoWindow.open(gmap, marker);
       });
     }
+
+    gmap.setCenter(function() {
+      if (allMarkers == 0) {
+        return getUserGeoLocation();
+      } else {
+        return allMarkers[allMarkers.length - 1].getPosition();
+      }
+    }());
 
   });
 };
