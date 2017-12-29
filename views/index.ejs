@@ -3,7 +3,7 @@
   <head>
     <title>📍Wiki maps📍</title>
     <!--Bootstrap-->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
 
     <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
     <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
@@ -23,10 +23,12 @@
     <img class="logo" src="/styles/map-marker-icon.png" alt="wiki maps logo">
     <h1 class="text-nowrap">Welcome to WikiMaps!</h1>
       <form method="POST" action="/login">
-        <label class="text-muted">User Login: </label>
-        <input type=email name="email" placeholder="your email" style="width: 300px">
-        <input type=password name="password" placeholder="your password">
-        <input class="login-btn" type="submit" value="Login">
+         <div>
+          <label class="text-muted">User Login: </label>
+          <input type=email name="email" placeholder="your email" style="width: 300px">
+          <input type=password name="password" placeholder="your password">
+          <input class="login-btn" type="submit" value="Login">
+         </div>
       </form>
 
 
@@ -37,21 +39,21 @@
 
   <body>
 
-    <div id="map"></div>
+    <div id="map" class="col-sm-12 col-md-8"></div>
 
 
     <main class="lists">
     <div id="map-title" class="lead"></div>
         <button class="fav-button" onclick="addFav()">Add this map to favourites</button>
-      <div class="text-center">Discover</div>
+      <div class="text-center lead font-weight-bold">Discover</div>
         <ul id="discover-list">
 
         </ul>
-      <div class="text-center">Favourite Maps</div>
+      <div class="text-center lead font-weight-bold">Favourite Maps</div>
         <ul id="faves">
 
         </ul>
-      <div class="text-center">Contributions</div>
+      <div class="text-center lead font-weight-bold">Contributions</div>
         <ul id="contributions">
         </ul>
     </main>

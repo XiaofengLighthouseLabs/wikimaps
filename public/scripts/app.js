@@ -73,7 +73,7 @@ const generateNewInforWindowContent = (lat, lng) => {
         <input type="hidden" value="${lat}" name="lat" />
         <input type="hidden" value="${lng}" name="lng" />
         <h3>
-          <textarea name='title' placeholder='Your new map title' required></textarea>
+          <textarea name='title' placeholder='Your new point title' required></textarea>
         </h3>
         <div>
           <textarea name='description' placeholder='Your description' required></textarea>
@@ -185,8 +185,9 @@ const discoverMaps = () => {
     method: "GET",
     url: "/maps"
   }).done((results) => {
+    $("#discover-list").empty();
     for (let map of results) {
-      $('#discover-list').append(`<li>${map.title}</li>`);
+    $('#discover-list').append(`<li data-map_id="${map.id}" onclick="getMap(event)">${map.title}</li>`);
     }
   });
 };
@@ -240,7 +241,7 @@ const initMap = (id) => {
     //DRAW THE GOOGLE MAP
     gmap = new google.maps.Map(document.getElementById('map'), {
       center: {lat:43, lng: -79.3}, //TODO make a relevant center depending on the map
-      zoom: 4
+      zoom: 3
     });
 
     //single click to add a new point

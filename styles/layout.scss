@@ -12,6 +12,7 @@ $edit: #EFE;
 $delete: #FBB;
 $hover: #17A2B8;
 
+
 body {
   background-color: $background;
   color: $text-color;
@@ -19,7 +20,6 @@ body {
     main {
       padding: 10px 40px;
       font-size: large;
-      width:380px;
     }
     div#map {
       height: 100vh;
@@ -81,7 +81,7 @@ nav {
 #map-title {
   font-weight: bold;
   border: 2px solid $text-color;
-  width: 95%;
+  width: 30%;
   margin-bottom: 10px;
   padding: 10px;
   background: $highlight;
@@ -148,9 +148,6 @@ footer {
       #map-title {
         border: none;
         background: none;
-      }
-      div#map {
-        width: 100%;
       }
   }
   nav {
