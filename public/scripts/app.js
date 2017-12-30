@@ -89,13 +89,12 @@ const generateNewInforWindowContent = (lat, lng) => {
 };
 
 const deleteMarker =  (id) => {
-  //DELETES THE MARKER FROM THE DB - UNCOMMENT TO WORK WITH DB
-  // $.ajax({
-  //   method: "POST",
-  //   url: "/maps/markers/delete",
-  //   data: $.param({data: id}),
-  //   // success: initMap //remove once front end delete works
-  // });
+  //DELETES THE MARKER FROM THE DB
+  $.ajax({
+    method: "POST",
+    url: `/maps/${currentMap}/markers/delete`,
+    data: $.param({data: id}),
+  });
 
   //Looks through the all markers array
   for (let i of allMarkers) {
